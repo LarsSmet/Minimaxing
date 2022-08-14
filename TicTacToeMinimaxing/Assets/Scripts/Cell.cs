@@ -63,4 +63,9 @@ public class Cell : MonoBehaviour
         }
     }
 
+    public void ClearCell()
+    {
+        Mark = ' ';
+    }
+
 }
