@@ -5,6 +5,8 @@ using UnityEngine;
 public class Cell : MonoBehaviour
 {
     SpriteRenderer SpriteRenderer;
+    [SerializeField] Sprite SpriteX;
+    [SerializeField] Sprite SpriteO;
 
     public char Mark { get; set; } = ' ';
 
@@ -23,6 +25,37 @@ public class Cell : MonoBehaviour
         
     }
 
+    public void ChangeMark(char newMark)
+    {
 
+        if(IsEmpty())
+        {
+            if(newMark == 'X')
+            {
+                Mark = 'X';
+                print("Called");
+                SpriteRenderer.sprite = SpriteX;
+            }
+            else if(newMark == 'O')
+            {
+                Mark = 'O';
+                SpriteRenderer.sprite = SpriteO;
+            }
+        }
+       
+
+    }
+
+    public bool IsEmpty()
+    {
+        if (Mark == ' ')
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
 }
