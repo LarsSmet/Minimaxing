@@ -10,11 +10,14 @@ public class Cell : MonoBehaviour
 
     public char Mark { get; set; } = ' ';
 
+    public int Index { get; set; }
     
 
     // Start is called before the first frame update
     void Start()
     {
+      
+
         SpriteRenderer = GetComponent<SpriteRenderer>();
     }
 
@@ -25,7 +28,7 @@ public class Cell : MonoBehaviour
         
     }
 
-    public void ChangeMark(char newMark)
+    public bool ChangeMark(char newMark)
     {
 
         if(IsEmpty())
@@ -35,15 +38,17 @@ public class Cell : MonoBehaviour
                 Mark = 'X';
                 print("Called");
                 SpriteRenderer.sprite = SpriteX;
+                return true;
             }
             else if(newMark == 'O')
             {
                 Mark = 'O';
                 SpriteRenderer.sprite = SpriteO;
+                return false;
             }
         }
        
-
+        return false; 
     }
 
     public bool IsEmpty()
