@@ -24,7 +24,7 @@ public class Player : MonoBehaviour
 
         if (PlayerTurn)
         {
-            print("Called in player");
+            //print("Called in player");
             if (Input.GetMouseButton(0))
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
