@@ -44,7 +44,7 @@ public class Cell : MonoBehaviour
             {
                 Mark = 'O';
                 SpriteRenderer.sprite = SpriteO;
-                return false;
+                return true;
             }
         }
        

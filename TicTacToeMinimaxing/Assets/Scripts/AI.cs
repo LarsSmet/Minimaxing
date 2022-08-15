@@ -31,12 +31,12 @@ public class AI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       //if(AITurn)
-       // {
-       //     print("update make move");
+        if (AITurn)
+        {
+            print("update make move");
 
-       //     MyBoard.MakeMove(FindBestMove(), AIMark);
-       // }
+            MyBoard.MakeMove(FindBestMove(), AIMark);
+        }
 
     }
 

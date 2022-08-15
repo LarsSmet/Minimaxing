@@ -80,13 +80,13 @@ public class Board : MonoBehaviour
 
                 MyPlayer.PlayerTurn = false;
                 MyAI.AITurn = true;
-                MakeMove(MyAI.FindBestMove(), MyAI.AIMark);
+                
             }
             else if(MyAI.AITurn)
             {
                 print("AIturn set to false");
                 MyAI.AITurn = false;
-                //MyPlayer.PlayerTurn = true;
+                MyPlayer.PlayerTurn = true;
                 
             }
 
