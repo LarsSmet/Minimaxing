@@ -25,6 +25,7 @@ public class Board : MonoBehaviour
         }
 
         //if result is 0 -> player starts, if result is 1 -> ai starts
+ 
 
         int startingPlayer = Random.Range(0, 2);
 
@@ -45,6 +46,8 @@ public class Board : MonoBehaviour
 
             MyAI.AIMark = 'X';
             MyAI.AITurn = true;
+
+            
 
             print("AI starts first");
         }
@@ -77,13 +80,13 @@ public class Board : MonoBehaviour
 
                 MyPlayer.PlayerTurn = false;
                 MyAI.AITurn = true;
-                //MyAI.FindBestMove();
+                MakeMove(MyAI.FindBestMove(), MyAI.AIMark);
             }
             else if(MyAI.AITurn)
             {
                 print("AIturn set to false");
                 MyAI.AITurn = false;
-                MyPlayer.PlayerTurn = true;
+                //MyPlayer.PlayerTurn = true;
                 
             }
 
@@ -94,9 +97,9 @@ public class Board : MonoBehaviour
         else
         {
             //remove this later, just for testing random moves
-            print("Can't make that move");
-            MyPlayer.PlayerTurn = true;
-            MyAI.AITurn = false;
+            //print("Can't make that move");
+            //MyPlayer.PlayerTurn = true;
+            //MyAI.AITurn = false;
 
         }
 

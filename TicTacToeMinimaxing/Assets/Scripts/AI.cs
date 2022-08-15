@@ -31,39 +31,208 @@ public class AI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       if(AITurn)
-        {
-            MyBoard.MakeMove(FindBestMove(), AIMark);
-        }
+       //if(AITurn)
+       // {
+       //     print("update make move");
+
+       //     MyBoard.MakeMove(FindBestMove(), AIMark);
+       // }
 
     }
 
     public int FindBestMove()
     {
         float bestScore = Mathf.NegativeInfinity;
-        int bestMove;
+        int bestMove = 0;
 
         char[] gameState = MyBoard.GetGameState();
 
+        print("FINDBESTMOVE");
+
         for (int i = 0; i < gameState.Length; ++i)
         {
+            print("FINDBESTMOVE FOR LOOP");
+
             if(gameState[i] == ' ') //if spot is available
             {
                 
                 gameState[i] = AIMark;
-                float score = MiniMax(gameState);
-               
-                // compare score?
+                float score = MiniMax(gameState, false);
+                gameState[i] = ' ';
+
+                if(score > bestScore)
+                {
+                    bestScore = score;
+                    bestMove = i; 
+                }
 
             }
         }
 
-        return  Random.Range(0, 9); ;
+        Debug.Log("BEst move is: ");
+        Debug.Log(bestMove);
+
+     return bestMove;
 
     }
-    private float MiniMax(char[] gameState)
+
+    char CheckForWin(char[] gameState)
     {
-        return -1.0f; //remove later
+        char winner = 'N';
+
+        for (int i = 0; i < 9; i += 3) //row match
+        {
+
+
+            if ((gameState[i] == gameState[i + 1]) && gameState[i] == gameState[i + 2])
+            {
+                //set winner by taking the character from the cell
+                //if char is ' ' -> empty cell so no winner
+                if (gameState[i] != ' ')
+                {
+                    winner = gameState[i];
+                }
+            }
+
+
+
+        }
+
+        for (int i = 0; i < 3; ++i) //row match
+        {
+
+
+            if ((gameState[i] == gameState[i + 3]) && gameState[i] == gameState[i + 6])
+            {
+                //set winner by taking the character from the cell
+                //if char is ' ' -> empty cell so no winner
+                if (gameState[i] != ' ')
+                {
+                    winner = gameState[i];
+                };
+            }
+
+        }
+
+        if ((gameState[0] == gameState[4] && gameState[0] == gameState[8]) || (gameState[2] == gameState[4] && gameState[2] == gameState[6]))
+        {
+
+            //set winner by taking the character from the cell
+            //if char is ' ' -> empty cell so no winner
+            if (gameState[4] != ' ')
+            {
+                winner = gameState[4];
+            }
+
+
+        }
+
+        
+
+        if(winner != 'X' && winner != 'O')
+        {
+            int emptySpots = 0;
+
+            foreach (char cell in gameState)
+            {
+                if (cell == ' ')
+                {
+                    ++emptySpots;
+                }
+            }
+
+            if (emptySpots == 0)
+            {
+                winner = 'T'; //T means tie
+            }
+            else
+            {
+                winner = 'N'; //N means no winner yet
+            }
+        }
+
+        return winner;
+
+    }
+    private float MiniMax(char[] gameState, bool isMaximizer)
+    {
+        char winCheck = CheckForWin(gameState);
+        Debug.Log(winCheck);
+
+        switch (winCheck) //if winner matches AI mark return 1, if winner matches player mark return -1, In case of a tie, return 0.5. If no winner yet, continue the minimax.
+        {
+            case 'X':
+                if(AIMark == 'X') 
+                {
+                    Debug.Log("X won");
+                    return 1;
+                }
+                else
+                {
+                    Debug.Log("o won");
+                    return -1;
+                }
+            case 'O':
+                if (AIMark == 'O')
+                {
+                    Debug.Log("O won");
+                    return 1;
+                }
+                else
+                {
+                    Debug.Log("X won");
+                    return -1;
+                }
+            case 'T':
+                Debug.Log("TIE");
+                return 0.0f;
+                
+        }
+
+        if(isMaximizer)
+        {
+            float bestScore = Mathf.NegativeInfinity;
+
+            for(int i = 0; i < gameState.Length; ++i)
+            {
+                Debug.Log("gameState.Length");
+                Debug.Log(gameState.Length);
+                if(gameState[i] == ' ') //check if cell is empty
+                {
+                    gameState[i] = AIMark;
+                    float score = MiniMax(gameState, false);
+                    gameState[i] = ' ';
+
+                    bestScore = Mathf.Max( bestScore, score);
+
+
+                }
+            }
+            return bestScore;
+        }
+        else if(!isMaximizer)
+        {
+            float bestScore = Mathf.Infinity;
+
+            for (int i = 0; i < gameState.Length; ++i)
+            {
+                if (gameState[i] == ' ') //check if cell is empty
+                {
+                    gameState[i] = PlayerMark;
+                    float score = MiniMax(gameState, true);
+                    gameState[i] = ' ';
+
+                    bestScore = Mathf.Min(bestScore, score);
+
+
+                }
+            }
+            return bestScore;
+
+        }
+
+
+        return 0.0f; //remove later
     }
 
 
