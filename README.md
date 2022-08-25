@@ -20,16 +20,19 @@ In this example the root node is the maximizer. It will go for the move with the
 # Implementation in TicTacToe
 
 ![FindBestMove](https://user-images.githubusercontent.com/97398099/186763652-bf44ff46-4d8c-42ac-901d-8cf2d6686bed.png)
+
 First i created a find best move function. First we get the current gamestate, then goes over every availale spot in our board and if it is available, it makes that move. After going over every cell it will return the best move based on the results of the minimax.
 
 ![WinCheck](https://user-images.githubusercontent.com/97398099/186763675-c2c1e48c-e214-46ce-a1e7-9541fdf48093.png)
+
 In the minimax function, i first call my check for win function to check if it has reached an endstate, in TicTacToe this is a win or tie. If there is a winner i return the score. The maximizer is the AI, so if he wins it returns a score of 1. If the minimizer(the player) wins, it returns a score of -1. If it is a draw, the score is 0. If there is no end state we continue with the minimax function.
 
 ![MaximizerMinimizer](https://user-images.githubusercontent.com/97398099/186763687-e5cc174c-445a-4c3e-889c-3f6145a04101.png)
-If the current player is the maximizer, it goes over the available cells and makes a move. It then calls minimax again. This recursion happends until a final state has been reached. He does that for every cell and eventually returns the highest score.
-The minimizer is very similar, but instead of looking for the highest score, it looks for the lowest score.
 
-Eventually these results will go get to the find best move function. Which will then return the best move based on the calculated scores.
+If the current player is the maximizer, it goes over the available cells and makes a move. It then calls minimax again. This recursion happends until a final state has been reached. He does that for every cell and eventually returns the highest score.
+The minimizer is very similar, but instead of looking for the highest score, it looks for the lowest score. Eventually these results will go get to the find best move function. Which will then return the best move based on the calculated scores.
+
+https://user-images.githubusercontent.com/97398099/186770003-b4b0205d-ad0e-4d89-888e-538b99af1208.mp4
 
 Because i like to give myself an advantage, the player gets to start in my game. I make the theoretically best move in TicTacToe, which is starting in a corner. But the AI replies with the best possible anwser, which is putting his mark in the middle of the board. I tried my best, but i can't beat my own AI!
 
