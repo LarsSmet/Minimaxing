@@ -16,8 +16,6 @@ public class Cell : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-      
-
         SpriteRenderer = GetComponent<SpriteRenderer>();
     }
 
@@ -36,7 +34,7 @@ public class Cell : MonoBehaviour
             if(newMark == 'X')
             {
                 Mark = 'X';
-                print("Called");
+                
                 SpriteRenderer.sprite = SpriteX;
                 return true;
             }

@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
 
     public bool PlayerTurn { get; set; } = false;
 
-    public char PlayerMark { get; set; } = ' ';
+    public char PlayerMark { get; set; } = 'X';
 
     private Board MyBoard;
 
@@ -20,17 +20,23 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        print(PlayerTurn);
+
+        HandlePlayerTurn();
+    }
+
+   
+
+    void HandlePlayerTurn()
+    {
+
 
         if (PlayerTurn)
         {
-            //print("Called in player");
+   
             if (Input.GetMouseButton(0))
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
-
-
 
                 if (Physics.Raycast(ray, out hit))
                 {
@@ -38,15 +44,10 @@ public class Player : MonoBehaviour
                     {
                         int idex = hit.collider.gameObject.GetComponent<Cell>().Index;
                         MyBoard.MakeMove(idex, PlayerMark);
-                        print("worked");
+                   
                     }
                 }
             }
         }
-
     }
-
-   
-
-
 }

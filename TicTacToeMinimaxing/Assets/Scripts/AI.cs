@@ -5,8 +5,9 @@ using UnityEngine;
 public class AI : MonoBehaviour
 {
     public bool AITurn { get; set; } = false;
-    public char AIMark { get; set; } = ' ';
-    private char PlayerMark = ' ';
+    public char AIMark { get; set; } = 'O';
+    private char PlayerMark = 'X';
+
 
 
     private Board MyBoard;
@@ -16,28 +17,25 @@ public class AI : MonoBehaviour
     {
         MyBoard = FindObjectOfType<Board>();
 
-        //set in start because AIMark is set in awake in board class
-        if(AIMark == 'X')
-        {
-            PlayerMark = 'O';
-
-        }
-        else if(AIMark == 'O')
-        {
-            PlayerMark = 'X';
-        }
     }
 
     // Update is called once per frame
     void Update()
     {
+       HandleAI();
+    }
+
+    void HandleAI()
+    {
+        HandleTurn();
+    }
+
+    void HandleTurn()
+    {
         if (AITurn)
         {
-            print("update make move");
-
             MyBoard.MakeMove(FindBestMove(), AIMark);
         }
-
     }
 
     public int FindBestMove()
@@ -47,31 +45,29 @@ public class AI : MonoBehaviour
 
         char[] gameState = MyBoard.GetGameState();
 
-        print("FINDBESTMOVE");
 
         for (int i = 0; i < gameState.Length; ++i)
         {
-            print("FINDBESTMOVE FOR LOOP");
+           
 
             if(gameState[i] == ' ') //if spot is available
             {
                 
                 gameState[i] = AIMark;
                 float score = MiniMax(gameState, false);
-                gameState[i] = ' ';
+                gameState[i] = ' '; //undo move
 
                 if(score > bestScore)
                 {
                     bestScore = score;
-                    bestMove = i; 
+                    bestMove = i;
+
                 }
 
             }
         }
 
-        Debug.Log("BEst move is: ");
-        Debug.Log(bestMove);
-
+       
      return bestMove;
 
     }
@@ -98,7 +94,7 @@ public class AI : MonoBehaviour
 
         }
 
-        for (int i = 0; i < 3; ++i) //row match
+        for (int i = 0; i < 3; ++i) //col match
         {
 
 
@@ -157,35 +153,37 @@ public class AI : MonoBehaviour
     private float MiniMax(char[] gameState, bool isMaximizer)
     {
         char winCheck = CheckForWin(gameState);
-        Debug.Log(winCheck);
 
-        switch (winCheck) //if winner matches AI mark return 1, if winner matches player mark return -1, In case of a tie, return 0.5. If no winner yet, continue the minimax.
+        switch (winCheck) //if winner matches AI mark return 1, if winner matches player mark return -1, In case of a tie, return 0. If no winner yet, continue the minimax.
         {
             case 'X':
                 if(AIMark == 'X') 
                 {
-                    Debug.Log("X won");
+ 
                     return 1;
+                    
                 }
                 else
                 {
-                    Debug.Log("o won");
+     
                     return -1;
                 }
             case 'O':
                 if (AIMark == 'O')
                 {
-                    Debug.Log("O won");
+                   
                     return 1;
                 }
                 else
                 {
-                    Debug.Log("X won");
+              
                     return -1;
                 }
             case 'T':
-                Debug.Log("TIE");
-                return 0.0f;
+           
+                return 0;
+            case 'N':
+                break;
                 
         }
 
@@ -195,13 +193,12 @@ public class AI : MonoBehaviour
 
             for(int i = 0; i < gameState.Length; ++i)
             {
-                Debug.Log("gameState.Length");
-                Debug.Log(gameState.Length);
+               
                 if(gameState[i] == ' ') //check if cell is empty
                 {
                     gameState[i] = AIMark;
-                    float score = MiniMax(gameState, false);
-                    gameState[i] = ' ';
+                    float score = MiniMax(gameState, false); //do minimax again
+                    gameState[i] = ' '; //undo move
 
                     bestScore = Mathf.Max( bestScore, score);
 
@@ -219,8 +216,8 @@ public class AI : MonoBehaviour
                 if (gameState[i] == ' ') //check if cell is empty
                 {
                     gameState[i] = PlayerMark;
-                    float score = MiniMax(gameState, true);
-                    gameState[i] = ' ';
+                    float score = MiniMax(gameState, true); //do minimax again
+                    gameState[i] = ' '; //undo move
 
                     bestScore = Mathf.Min(bestScore, score);
 
@@ -232,42 +229,9 @@ public class AI : MonoBehaviour
         }
 
 
-        return 0.0f; //remove later
+        return 0.0f; 
     }
 
 
-    //    public int FindBestMove()
-    //{
-    //    //float currentHighestScore = Mathf.NegativeInfinity;
-    //    //int bestMove = 0;
-
-    //    //foreach(Cell cell in MyBoard.Cells)
-    //    //{
-    //    //    if(cell.IsEmpty())
-    //    //    {
-    //    //        MyBoard.MakeMove(cell.Index, AIMark);
-    //    //        float score = MiniMax();
-    //    //        cell.ClearCell();
-
-    //    //    }
-    //    //}
-
-
-
-    //    //Board newBoard = MyBoard.m;
-    //    //newBoard.GetCells()[0].ChangeMark(AIMark);
-    //    //print("newboard mark:");
-    //    //print(newBoard.GetCells()[0].Mark);
-    //    //print("  old board mark:");
-    //    //print(MyBoard.GetCells()[0].Mark);
-
-
-    //    return -1; //remove later
-    //}
-
-    //private float MiniMax()
-    //{
-    //    return -1.0f; //remove later
-    //}
 
 }
